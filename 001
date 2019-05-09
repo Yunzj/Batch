@@ -1,0 +1,36 @@
+@echo off
+Mode con cols=45 lines=20
+title 纭之家bat教程--文件归类
+cls
+:ks
+echo 纭之家bat教程--文件归类
+echo.
+echo   本工具可以搜索指定目录下的文件
+echo   并在根目录建立关键字目录
+echo   再把搜索到的文件移到关键字目录
+echo.
+echo        注意:不处理重名文件
+echo.
+echo.
+echo.
+set/p ml=请输入您要搜索的目录并回车:
+for %%a in (%ml%) do (set "ml=%%~a")
+if not exist "%ml%" cls&echo 您的目录不存在请重新输入!&echo.----------&goto ks
+
+:gj
+set/p gjz=请输入要搜索的关键字并回车:
+if "%gjz%"=="" cls&echo 关键字为空,请重新输入!&goto gj
+for /f "tokens=1,2,3,4 delims=/-" %%1 in ('echo %date:~0,10%') do (
+ set "data=%%1-%%2-%%3"
+)
+
+for %%i in (%gjz%) do (
+if not exist "%~dp0%%i" md "%~dp0%%i"
+for /f "delims=" %%a in ('dir /s /b /a-d "%ml%\*%%i"') do (
+  if not exist "%~dp0%%i\%%~nxa" move "%%~a" "%~dp0%%i"
+  if exist "%~dp0%%i\%%~nxa" move "%%~a" "%~dp0%%i\%%~na_%data%.%%~xa"
+  ECHO "%%~a" >>"%~dp0日志.log"
+))
+echo 完成!
+start "" "%~dp0日志.log"
+exit
