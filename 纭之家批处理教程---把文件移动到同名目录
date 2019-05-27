@@ -1,0 +1,19 @@
+@echo off
+title 纭之家批处理教程---把文件移动到同名目录
+echo;
+echo; 本工具可以在bat所在目录创建与此目录里同名的jpg同名目录，并把jpg文件移进去。
+echo;
+pause
+cd /d "%~dp0"
+for /f "delims=" %%a in ('dir /b /a-d *.jpg') do (
+ if not exist "%%~na" md "%%~na" 
+ move "%%~a" "%%~na" >nul 2>nul&&echo 文件：%%~a移动成功！！||echo ******文件：%%~a移动失败
+)
+echo;
+echo;      操作完成！
+echo;
+echo;            感谢您支持纭之家淘宝店！
+echo;            https://shop108499319.taobao.com
+echo;
+pause
+exit
