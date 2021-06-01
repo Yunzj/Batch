@@ -1,0 +1,8 @@
+@echo off
+title 纭之家批处理教程--获取用户SID
+echo 正在查找设置SID变量...
+for /F "tokens=2,3 delims=\_" %%i in ('REG QUERY HKEY_USERS ^|findstr /i "_Classes"') do set "sid=%%j"
+echo SID为：%sid%
+echo;
+pause
+exit
